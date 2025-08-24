@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
 export const connectDB = async () => {
-    (await mongoose.connect('mongodb+srv://snehay551:uix0q1L3r3aEqaYo@cluster0.hb3xa7a.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')).isObjectIdOrHexString(()=>console.log("DB Connected"));
-}
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("✅ MongoDB Connected");
+  } catch (err) {
+    console.error("❌ MongoDB Connection Failed:", err.message);
+    process.exit(1); // Stop server if DB fails
+  }
+};
